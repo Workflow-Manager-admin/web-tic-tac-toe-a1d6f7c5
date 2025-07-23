@@ -1,104 +1,170 @@
-/* CSS Variables for Theme Management */
+/* --- Tic Tac Toe Themed CSS Variables (light, minimal) --- */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --ttt-accent: #e53935;
+  --ttt-primary: #1976d2;
+  --ttt-secondary: #424242;
+  --ttt-bg: #fff;
+  --ttt-board-bg: #f8f9fa;
+  --ttt-border: #e9ecef;
+  --ttt-text: #24292f;
+  --ttt-x: var(--ttt-primary);
+  --ttt-o: var(--ttt-accent);
+  --ttt-cell-hover: #eef2f9;
+  --ttt-btn-bg: var(--ttt-primary);
+  --ttt-btn-text: #fff;
+  --ttt-btn-hover: #1565c0;
+  --ttt-status: var(--ttt-secondary);
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
-}
-
-.App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
+/* Main wrapper */
+.ttt-app-outer {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+  background: var(--ttt-bg);
+  color: var(--ttt-text);
+  font-family: system-ui, 'Segoe UI', Arial, sans-serif;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
-}
-
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
+.ttt-title {
+  font-size: 2.35rem;
   font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.8rem;
+  color: var(--ttt-primary);
+  text-align: center;
+}
+
+.ttt-board {
+  display: grid;
+  grid-template-columns: repeat(3, 70px);
+  grid-template-rows: repeat(3, 70px);
+  gap: 10px;
+  background: var(--ttt-board-bg);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1.5px solid var(--ttt-border);
+  box-shadow: 0 2px 14px 0 rgba(50, 100, 160, 0.09);
+}
+
+.ttt-cell {
+  font-size: 2.2rem;
+  font-weight: 650;
+  border: 2.5px solid var(--ttt-border);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--ttt-text);
+  outline: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.16s, box-shadow 0.13s;
+  height: 70px;
+  width: 70px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+.ttt-cell:not(.filled):hover,
+.ttt-cell:not(.filled):focus {
+  background: var(--ttt-cell-hover);
+  box-shadow: 0 0 0 1.5px var(--ttt-accent, #e53935);
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+.ttt-cell.filled {
+  cursor: default;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.ttt-cell.filled {
+  color: var(--ttt-text);
+}
+
+.ttt-cell.filled:before {
+  display: none;
+}
+
+.ttt-cell.filled:after {
+  display: none;
+}
+
+.ttt-cell:nth-child(3n + 1) {
+  /* first in row; optional styling */
+}
+.ttt-cell[data-player="X"] {
+  color: var(--ttt-x); 
+}
+.ttt-cell[data-player="O"] {
+  color: var(--ttt-o);
+}
+
+.ttt-status {
+  margin-top: 2rem;
+  font-size: 1.25rem;
+  font-weight: 490;
+  color: var(--ttt-status);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.ttt-restart-btn {
+  display: inline-block;
+  background: var(--ttt-btn-bg);
+  color: var(--ttt-btn-text);
+  border: none;
+  border-radius: 7px;
+  padding: 0.65em 2em;
+  margin: 1.3rem 0 0.7rem 0;
+  font-size: 1.06rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 1px 6px 0 rgba(25, 118, 210, 0.05);
+  transition: background 0.13s;
+}
+.ttt-restart-btn:hover,
+.ttt-restart-btn:focus {
+  background: var(--ttt-btn-hover);
+  color: #fff;
+}
+
+.ttt-footer {
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  color: var(--ttt-secondary);
+  text-align: center;
+  opacity: 0.7;
+}
+
+@media (max-width: 530px) {
+  .ttt-title {
+    font-size: 1.6rem;
   }
-  to {
-    transform: rotate(360deg);
+  .ttt-board {
+    grid-template-columns: repeat(3, 48px);
+    grid-template-rows: repeat(3, 48px);
+    gap: 7px;
+    padding: 12px;
+    border-radius: 9px;
+  }
+  .ttt-cell {
+    font-size: 1.35rem;
+    height: 48px;
+    width: 48px;
+    border-radius: 5px;
+  }
+  .ttt-status {
+    font-size: 1.05rem;
+    margin-top: 1.0rem;
+  }
+  .ttt-restart-btn {
+    font-size: .95rem;
+    padding: 0.5em 1.1em;
   }
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
-  }
+/* Accessibility focus ring */
+.ttt-cell:focus-visible {
+  outline: 3px solid var(--ttt-accent);
+  outline-offset: 1px;
 }
